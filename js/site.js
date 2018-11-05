@@ -10,7 +10,7 @@ function updateInfoBox(event, stationData) {
 	const station = stationData.stations[stationID];
 
 	const el = document.getElementById('station-info');
-	el.innerHTML = `<strong>Station ${stationID}</strong> <small>${station.place},</small> <small>Location:${station.location[0]},${station.location[1]}</small><br>`;
+	el.innerHTML = `<strong>Station ${stationID}</strong> <small>${station.place},</small> <small>Location:${station.location[0]} N°, ${station.location[1]} W°</small><br>`;
 	const infoList = document.createElement('ul');
 	const infoArr = [
 		`This station was involved in a total of ${station.totalTrips} trips.`,
@@ -106,6 +106,49 @@ fetch('data/stations.json').then(function (response) {
 			}
 		}
 	});
+	return data;
+}).then((data) => {
+	const startRankings = Object.keys(data.stations).sort((a, b) => {
+		return data.stations[b].startTrips - data.stations[a].startTrips;
+	});
+	const endRankings = Object.keys(data.stations).sort((a, b) => {
+		return data.stations[b].endTrips - data.stations[a].endTrips;
+	});
+	const totalRankings = Object.keys(data.stations).sort((a, b) => {
+		return data.stations[b].totalTrips - data.stations[a].totalTrips;
+	});
+	const tableBody = document.getElementById('rankingTableBody');
+	for (let i = 0; i < 10; i++) {
+		var row = document.createElement('tr');
+		var rankNode = document.createElement('th');
+		rankNode.appendChild(document.createTextNode(`${i+1}`));
+
+		var totalStation = data.stations[totalRankings[i]];
+		var totalRankNode = document.createElement('td');
+		totalRankNode.appendChild(
+			document.createTextNode(
+				`${totalStation.totalTrips} - Station ${totalRankings[i]} (${totalStation.place})`
+			)
+		);
+
+		var startStation = data.stations[startRankings[i]];
+		var startRankNode = document.createElement('td');
+		startRankNode.appendChild(
+			document.createTextNode(
+				`${startStation.startTrips} - Station ${startRankings[i]} (${startStation.place})`
+			)
+		);
+
+		var endStation = data.stations[endRankings[i]];
+		var endRankNode = document.createElement('td');
+		endRankNode.appendChild(
+			document.createTextNode(
+				`${endStation.endTrips} - Station ${endRankings[i]} (${endStation.place})`
+			)
+		);
+		row.append(rankNode, totalRankNode, startRankNode, endRankNode);
+		tableBody.appendChild(row);
+	}
 });
 
 
@@ -137,7 +180,7 @@ new Chart(ctx, {
 			return `Bike ${x}`;
 		}),
 		datasets: [{
-			label: 'Most Used Bikes',
+			label: 'Number of Trips',
 			backgroundColor: 'rgb(255, 99, 132)',
 			borderColor: 'rgb(255, 99, 132)',
 			data: sortedBikeIDs.map((x) => {
@@ -268,7 +311,7 @@ let commuterChart = new Chart(ctx, {
 function setDataSeasonal() {
 	commuterChart.data.labels = seasonalCommuteCount.map((x) => x[0]);
 	commuterChart.data.datasets[0] = {
-		label: 'Seasonal Ride Counts',
+		label: 'Commuter Seasonal Ride Counts',
 		data: seasonalCommuteCount.map((x) => x[1]),
 		backgroundColor: 'orange',
 		borderColor: 'orange'
@@ -309,9 +352,39 @@ new Chart(ctx, {
 			backgroundColor: ['red', 'orange', 'purple', 'green']
 		}],
 		labels: commuterPassData.map((x) => x[0])
+	},
+	options: {
+		title: {
+			display: true,
+			text: 'Commuter Pass Type Data'
+		}
 	}
 });
 
+const everyonePassData = [
+	['Monthly Pass', 81304],
+	['Walk-up', 41224],
+	['Flex Pass', 9517],
+	['Staff Annual', 382]
+];
+
+ctx = document.getElementById('totalPassTypes').getContext('2d');
+new Chart(ctx, {
+	type: 'doughnut',
+	data: {
+		datasets: [{
+			data:everyonePassData.map((x) => x[1]),
+			backgroundColor: ['red', 'orange', 'purple', 'green']
+		}],
+		labels: everyonePassData.map((x) => x[0])
+	},
+	options: {
+		title: {
+			display: true,
+			text: 'Total Pass Type Data'
+		}
+	}
+});
 
 const countUpOptions = {
 	useEasing: true,

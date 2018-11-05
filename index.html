@@ -92,9 +92,36 @@
 				</div>
 			</article>
 		</div>
-		<br>
-		<br>
-		<br>
+	</section>
+	<section>
+		<h3 class="title is-3 has-text-centered">Station Traffic Rankings</h3>
+		<div class="container">
+			<table class="table is-bordered is-striped">
+				<thead>
+					<tr>
+						<th>Ranking</th>
+						<th>Total Traffic - Station ID (Location)</th>
+						<th>Num. of Starts - Station ID (Location)</th>
+						<th>Num. of Ends - Station ID (Location)</th>
+					</tr>
+				</thead>
+				<tfoot>
+						<tr>
+							<th>Ranking</th>
+							<th>Total Traffic - Station ID (Location)</th>
+							<th>Num. of Starts - Station ID (Location)</th>
+							<th>Num. of Ends - Station ID (Location)</th>
+						</tr>
+				</tfoot>
+				<tbody id="rankingTableBody">
+				</tbody>
+			</table>
+			<span class="tag has-text-centered">
+				* Rankings do not include round trips to the same location
+			</span>
+		</div>
+	</section>
+	<section>
 		<div class="container">
 			<h4 class="title is-4 has-text-centered">Time v. Num of Rides</h4>
 			<div class="columns">
@@ -131,12 +158,26 @@
 				</div>
 			</div>
 		</div>
-
 	</section>
 	<section class="section">
 		<div class="container">
 			<h4 class="title is-4 has-text-centered">Time v. Duration of Trip</h4>
-			<canvas id="timeDuration"></canvas>
+			<div class="columns">
+				<div class="column is-9">
+					<canvas id="timeDuration"></canvas>
+				</div> 
+				<div class="column is-3">
+					<article class="message">
+						<div class="message-body">
+							According to the data, the average bike trip throughout the day hovers between 20-30 minutes. 
+							This number gets as high as 50-65 minutes between midnight and 3 am, most likely due to people going 
+							for longer joyrides for pleasure rather than using the bikes as a form of quick transportation 
+							to their destination.
+						</div>
+					</article>
+				</div>
+			</div>
+			
 		</div>
 		
 	</section>
@@ -199,21 +240,24 @@
 			</div>
 			
 		</div>
-
-		<div class="container">
-			<div class="columns">
-				<div class="column is-9">
-					<canvas id="commuterPassTypes"></canvas>
+	</section>
+	<section class="section">
+			<div class="container">
+				<div class="columns">
+					<div class="column is-6">
+						<canvas id="commuterPassTypes"></canvas>
+					</div>
+					<div class="column is-6">
+						<canvas id="totalPassTypes"></canvas>
+					</div>
 				</div>
-				<div class="column is-3">
-					<article class="message">
-						<div class="message-body">
-							The vast majority of bikeshare commuters have a monthly pass. The Flex and Walkup users are most likely those who rode during commute times but aren't commuters, or those testing out the service for a short period of time.
-						</div>
-					</article>
-				</div>
+				<article class="message">
+					<div class="message-body">
+						The vast majority of bikeshare commuters have a monthly pass. The Flex and Walkup users are most likely those who rode during commute times but aren't commuters, or those testing out the service for a short period of time.
+						However, it is interesting to note that even among the aggregate data, monthly passes are still the vast majority of passes which is a sign that the service is being used regularly by most of its users. A very good sign for the future of bikeshare services in Los Angeles.
+					</div>
+				</article>
 			</div>
-		</div>
 	</section>
 	<section class="section">
 		<div class="hero-foot">
