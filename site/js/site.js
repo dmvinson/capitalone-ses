@@ -35,7 +35,7 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 	accessToken: 'pk.eyJ1IjoiZG12aW5zb24zMjYiLCJhIjoiY2pudHFpdzM2MHdoaTN2bnQ3ZncyanBnayJ9.GzikvK9YLnA9tfOgI2xAnQ'
 }).addTo(mymap);
 
-fetch('data/stations.json').then(function(response) {
+fetch('data/stations.json').then(function (response) {
 	return response.json();
 }).then((stationInfo) => {
 	for (const [key, value] of Object.entries(stationInfo.stations)) {
@@ -78,14 +78,14 @@ fetch('data/stations.json').then(function(response) {
 	new Chart(ctx, {
 		type: 'line',
 		data: {
-			labels: [...Array(24).keys()].map((x) => x < 10 ? `0${x}:00`: `${x}:00`),
+			labels: [...Array(24).keys()].map((x) => x < 10 ? `0${x}:00` : `${x}:00`),
 			datasets: Object.keys(data.areaHourlyCounts).map((key, i) => {
 				return {
 					data: data.areaHourlyCounts[key],
 					backgroundColor: COLORS[i],
 					borderColor: COLORS[i],
 					label: key,
-					fill:false
+					fill: false
 				};
 			})
 		},
@@ -165,10 +165,10 @@ ctx = document.getElementById('timeDuration').getContext('2d');
 var timeDurationChart = new Chart(ctx, {
 	type: 'line',
 	data: {
-		labels: [...Array(24).keys()].map((x) => x < 10 ? `0${x}:00`: `${x}:00`),
+		labels: [...Array(24).keys()].map((x) => x < 10 ? `0${x}:00` : `${x}:00`),
 		datasets: [{
 			label: 'Time vs. Duration',
-			data: durationAverages.map((x) => x/60),
+			data: durationAverages.map((x) => x / 60),
 			backgroundColor: 'blue',
 			borderColor: 'blue',
 			fill: false
@@ -203,7 +203,7 @@ ctx = document.getElementById('hourlyCounts').getContext('2d');
 new Chart(ctx, {
 	type: 'line',
 	data: {
-		labels: [...Array(24).keys()].map((x) => x < 10 ? `0${x}:00`: `${x}:00`),
+		labels: [...Array(24).keys()].map((x) => x < 10 ? `0${x}:00` : `${x}:00`),
 		datasets: [{
 			label: 'Time vs. Number of Rides',
 			data: hourlyCounts,
@@ -233,17 +233,17 @@ new Chart(ctx, {
 
 // Commuter Data
 
-var seasonalCommuteCount = [
+const seasonalCommuteCount = [
 	['Winter', 3918],
 	['Spring', 2587],
 	['Fall', 8482],
 	['Summer', 5450]
 ];
 
-var weeklyCounts = [[[2016, 27], 80], [[2016, 28], 468], [[2016, 29], 475], [[2016, 30], 592], [[2016, 31], 767], [[2016, 32], 847], [[2016, 33], 735], [[2016, 34], 749], [[2016, 35], 737], [[2016, 36], 671], [[2016, 37], 764], [[2016, 38], 710], [[2016, 39], 690], [[2016, 40], 817], [[2016, 41], 761], [[2016, 42], 599], [[2016, 43], 611], [[2016, 44], 689], [[2016, 45], 603], [[2016, 46], 627], [[2016, 47], 379], [[2016, 48], 561], [[2016, 49], 506], [[2016, 50], 425], [[2016, 51], 284], [[2017, 1], 281], [[2017, 2], 215], [[2017, 3], 332], [[2017, 4], 360], [[2017, 5], 408], [[2017, 6], 289], [[2017, 7], 430], [[2017, 8], 388], [[2017, 9], 492], [[2017, 10], 574], [[2017, 11], 541], [[2017, 12], 522], [[2017, 13], 458]]
+const weeklyCounts = [[[2016, 27], 80], [[2016, 28], 468], [[2016, 29], 475], [[2016, 30], 592], [[2016, 31], 767], [[2016, 32], 847], [[2016, 33], 735], [[2016, 34], 749], [[2016, 35], 737], [[2016, 36], 671], [[2016, 37], 764], [[2016, 38], 710], [[2016, 39], 690], [[2016, 40], 817], [[2016, 41], 761], [[2016, 42], 599], [[2016, 43], 611], [[2016, 44], 689], [[2016, 45], 603], [[2016, 46], 627], [[2016, 47], 379], [[2016, 48], 561], [[2016, 49], 506], [[2016, 50], 425], [[2016, 51], 284], [[2017, 1], 281], [[2017, 2], 215], [[2017, 3], 332], [[2017, 4], 360], [[2017, 5], 408], [[2017, 6], 289], [[2017, 7], 430], [[2017, 8], 388], [[2017, 9], 492], [[2017, 10], 574], [[2017, 11], 541], [[2017, 12], 522], [[2017, 13], 458]]
 
 ctx = document.getElementById('commuteCounts').getContext('2d');
-var commuterChart = new Chart(ctx, {
+let commuterChart = new Chart(ctx, {
 	type: 'bar',
 	data: {
 		labels: seasonalCommuteCount.map((x) => x[0]),
@@ -289,23 +289,23 @@ function setDataWeekly() {
 	commuterChart.update();
 }
 
-document.getElementById('commuterSeasonalButton').addEventListener('click',setDataSeasonal);
-document.getElementById('commuterWeeklyButton').addEventListener('click',setDataWeekly);
+document.getElementById('commuterSeasonalButton').addEventListener('click', setDataSeasonal);
+document.getElementById('commuterWeeklyButton').addEventListener('click', setDataWeekly);
 
 
-var commuterPassData = [
-	['Monthly Pass', 16029], 
-	['Walk-up', 3179], 
-	['Flex Pass', 1387], 
+const commuterPassData = [
+	['Monthly Pass', 16029],
+	['Walk-up', 3179],
+	['Flex Pass', 1387],
 	['Staff Annual', 82]
 ];
 
 ctx = document.getElementById('commuterPassTypes').getContext('2d');
-var passTypeChart = new Chart(ctx, {
+new Chart(ctx, {
 	type: 'doughnut',
 	data: {
 		datasets: [{
-			data: commuterPassData.map((x)=> x[1]),
+			data: commuterPassData.map((x) => x[1]),
 			backgroundColor: ['red', 'orange', 'purple', 'green']
 		}],
 		labels: commuterPassData.map((x) => x[0])

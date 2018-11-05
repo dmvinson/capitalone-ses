@@ -2,12 +2,14 @@ import pandas as pd
 import numpy as np
 from geopy import distance
 
+
 def get_distance(row):
-    start = (row['Starting Station Latitude'], row['Starting Station Longitude'])
+    start = (row['Starting Station Latitude'],
+             row['Starting Station Longitude'])
     stop = (row['Ending Station Latitude'], row['Ending Station Longitude'])
     try:
         return distance.distance(start, stop).meters
-    except ValueError: # NaN coordinates
+    except ValueError:  # NaN coordinates
         return np.nan
 
 

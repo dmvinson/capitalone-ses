@@ -10,9 +10,10 @@ df['Start Time'] = pd.to_datetime(df['Start Time'])
 with open('stations.json', 'r') as f:
     data = json.load(f)
 
+
 def get_hourly_counts(neighborhood):
-    neighborhood_stations = [station for station in data['stations'] 
-                        if data['stations'][station]['area'] == neighborhood]
+    neighborhood_stations = [station for station in data['stations']
+                             if data['stations'][station]['area'] == neighborhood]
     hourly_counts = []
     for hour in range(24):
         hour_mask = df['Start Time'].map(lambda x: x.hour) == hour
@@ -27,6 +28,7 @@ def get_hourly_counts(neighborhood):
             filtered_count += 1 if station in neighborhood_stations else 0
         hourly_counts.append(filtered_count)
     return hourly_counts
+
 
 neighborhoods = data['areaStationCounts'].keys()
 

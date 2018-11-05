@@ -2,9 +2,11 @@ import pandas as pd
 
 df = pd.read_csv('metro-bike-share-trip-data.csv')
 
+
 def mask_filter(row):
     hour = row.hour
     return ((hour > 6 and hour < 10) or (hour > 3 and hour < 7))
+
 
 mask = df['Start Time'].apply(mask_filter)
 
@@ -18,7 +20,8 @@ Flex Pass        1387
 Staff Annual       82
 """
 
-commuting_trips = commuters['Trip ID'].count() # 20677
+commuting_trips = commuters['Trip ID'].count()  # 20677
+
 
 def get_season(week_num):
     if week_num in range(9) or week_num in range(49, 52):
@@ -30,6 +33,7 @@ def get_season(week_num):
     elif week_num in range(36, 49):
         return 'Fall'
 
+
 # Get weekly counts
 counts = {}
 season_counts = {
@@ -40,14 +44,16 @@ season_counts = {
 }
 for year in [2016, 2017]:
     for week in range(52):
-        week_mask = commuters['Start Time'].map(lambda x: (x.year, x.week)) == (year, week)
+        week_mask = commuters['Start Time'].map(
+            lambda x: (x.year, x.week)) == (year, week)
         season = get_season(week)
         weekly_commutes = commuters.loc[week_mask]
         count = weekly_commutes['Trip ID'].count()
         season_counts[season] += count
         counts[(year, week)] = count
 
-counts = {k: counts[k] for k in counts if counts[k] > 0} # Remove nonexistent year-month combos
+# Remove nonexistent year-month combos
+counts = {k: counts[k] for k in counts if counts[k] > 0}
 season_counts = [[k, season_counts[k]] for k in season_counts]
 
 commuters['Ending Station ID'].value_counts()

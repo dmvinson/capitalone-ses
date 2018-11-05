@@ -24,16 +24,17 @@ ending_counts.index = ending_counts.index.astype(int)
 result = collections.defaultdict(dict)
 for i in range(len(starting_counts)):
     startStation = starting_counts.index[i]
-    startingLat, startingLong = df.iloc[startStation]['Starting Station Latitude'], df.iloc[startStation]['Starting Station Longitude']
+    startingLat, startingLong = df.iloc[startStation][
+        'Starting Station Latitude'], df.iloc[startStation]['Starting Station Longitude']
     # Convert to regular int, json.dump can't handle int64
     result[int(startStation)]['startRanking'] = i + 1
-    result[int(startStation)]['location'] = [startingLat, startingLong] 
+    result[int(startStation)]['location'] = [startingLat, startingLong]
     endStation = ending_counts.index[i]
     result[int(endStation)]['endRanking'] = i + 1
 
 # Add station neighborhoods to result
 for station in result:
-    time.sleep(2) # Don't poll too much to help our open source friends
+    time.sleep(2)  # Don't poll too much to help our open source friends
     station_info = reverse_geocode(result[station]['location'])
     result[station]['area'] = station_info['address']['neighbourhood']
     try:
@@ -67,8 +68,9 @@ for station in result:
     involved_trips = df[starting_trips_mask | ending_trips_mask]
     has_distance_mask = involved_trips['Distance'].notnull()
     average_distance = involved_trips[has_distance_mask]['Distance'].mean()
-    result[station]['averageDistance'] = average_distance if not pd.isna(average_distance) else None
-    
+    result[station]['averageDistance'] = average_distance if not pd.isna(
+        average_distance) else None
+
     has_duration_mask = involved_trips['Duration'].notnull()
     result[station]['averageTime'] = involved_trips[has_duration_mask]['Duration'].mean()
     result[station]['totalTrips'] = len(involved_trips)
@@ -81,7 +83,6 @@ for station in result:
 
 data['stations'] = result
 data['areaStationCounts'] = area_station_counts
-
 
 
 with open('stations.json', 'w') as f:
